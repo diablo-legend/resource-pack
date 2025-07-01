@@ -1,0 +1,37 @@
+name: Build and Release Resource Pack
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create ZIP archive
+        run: |
+          mkdir -p MandragoraPack
+          cp -r assets pack.mcmeta sounds.json MandragoraPack/
+          zip -r MandragoraPack.zip MandragoraPack
+
+      - name: Create GitHub release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: v1.0.0
+          release_name: "Mandragora Pack v1.0.0"
+          body: "Initial release of Mandragora Resource Pack."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload ZIP to release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: MandragoraPack.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
