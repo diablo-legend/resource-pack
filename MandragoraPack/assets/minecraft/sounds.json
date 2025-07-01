@@ -1,8 +1,0 @@
-{
-  "jukebox.mandragora": {
-    "category": "music",
-    "sounds": [
-      { "name": "jukebox/mandragora", "stream": true }
-    ]
-  }
-}
